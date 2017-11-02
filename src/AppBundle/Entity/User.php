@@ -26,7 +26,7 @@ class User implements AdvancedUserInterface, \Serializable {
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=100)
      */
     private $password;
 
