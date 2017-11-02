@@ -24,12 +24,13 @@ class RegistrationController extends Controller {
             $password = $this->get('security.password_encoder')
                 ->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+            $user->setVictorias(0);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
             
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render(
