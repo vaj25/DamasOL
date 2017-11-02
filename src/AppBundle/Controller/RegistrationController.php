@@ -2,11 +2,10 @@
 // src/AppBundle/Controller/RegistrationController.php
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class RegistrationController extends Controller {

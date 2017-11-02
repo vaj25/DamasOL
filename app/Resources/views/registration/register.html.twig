@@ -1,11 +1,20 @@
 {# app/Resources/views/registration/register.html.twig #}
 
-{{ form_start(form) }}
-    {{ form_row(form.username) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password.first) }}
-    {{ form_row(form.password.second) }}
+{% extends "base.html.twig" %}
 
-    <button type="submit">Registrate!</button>
 
-{{ form_end(form) }}
+{% block title %}Registrate{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.password.first) }}
+        {{ form_row(form.password.second) }}
+
+        <button type="submit">Registrate!</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}

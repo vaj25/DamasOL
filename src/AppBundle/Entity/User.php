@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @author Alberto Castaneda
@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
  */
 
-class User implements UserInterface, \Serializable {
+class User implements AdvancedUserInterface, \Serializable {
 
     /**
      * @ORM\Column(type="integer")
@@ -151,21 +151,54 @@ class User implements UserInterface, \Serializable {
         return $this->isActive;
     }
 
-    /** @see \Serializable::serialize() */
+    /** 
+     * @see \Serializable::serialize() 
+     * se coloca $this->isActive
+     * para poder serializarce
+    */
     public function serialize() {
         return serialize(array(
             $this->id,
             $this->username,
             $this->password,
+            $this->isActive
         ));
     }
 
-    /** @see \Serializable::unserialize() */
+    /**
+     *  @see \Serializable::unserialize() 
+     * se coloca $this->isActive
+     * para poder deserealizarce
+    */
     public function unserialize($serialized) {
         list (
             $this->id,
             $this->username,
             $this->password,
+            $this->isActive
         ) = unserialize($serialized);
+    }
+
+    /**
+     * metodos por AdvanceUserInterface
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->isActive;
     }
 }

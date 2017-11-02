@@ -5,7 +5,6 @@ security:
     encoders:
         AppBundle\Entity\User:
             algorithm: bcrypt
-            cost: 4
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -22,7 +21,6 @@ security:
 
         main:
             anonymous: ~
-            provider: our_db_provider
             form_login:
               login_path: /login
               check_path: /login_check
