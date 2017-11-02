@@ -40,6 +40,11 @@ class User implements AdvancedUserInterface, \Serializable {
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(name="victorias", type="integer")
+     */
+    private $victorias;
+
     public function __construct() {
         $this->isActive = true;
     }
@@ -47,21 +52,25 @@ class User implements AdvancedUserInterface, \Serializable {
     public function getUsername() {
         return $this->username;
     }
-     
+
     public function getSalt() {
         return null;
     }
-     
+
     public function getRoles() {
         return array('ROLE_USER');
     }
-     
+
     public function eraseCredentials() {
         return null;
     }
 
     public function getPassword() {
         return $this->password;
+    }
+
+    public function getVictorias() {
+        return $this->victorias;
     }
 
 
@@ -85,6 +94,13 @@ class User implements AdvancedUserInterface, \Serializable {
     public function setUsername($username)
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function setVictorias($victorias)
+    {
+        $this->victorias = $victorias;
 
         return $this;
     }

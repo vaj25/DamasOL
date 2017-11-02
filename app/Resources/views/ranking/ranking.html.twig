@@ -1,0 +1,19 @@
+{# app/Resources/views/ranking/ranking.html.twig #}
+<table border="1">
+<tr>
+  <td>Identificador</td>
+  <td>Nombre de usuario</td>
+  <td>Partidas ganadas</td>
+</tr>
+{% for user in usuarios %}
+<tr>
+<td>{{ user.id }}</td>
+<td>{{ user.username }}</td>
+<td>{{ user.victorias }}</td>
+</tr>
+{% else %}
+    <tr>
+        <td>No hay resultados.</td>
+    </tr>
+{% endfor %}
+</table>
