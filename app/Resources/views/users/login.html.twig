@@ -36,10 +36,12 @@
                     <label for="password" class="label-control">Password:</label>
                     <input type="password" id="password" name="_password" class="form-control" />
 
-                    {# <input type="hidden" name="_target_path" value="account" /> #}
+                    <input type="hidden" name="_target_path" value="account" />
 
                     <input type="submit" name="login" value="iniciar" class="btn" />
                 </form>
+
+                <a href="{{ path('user_registration') }}">Crear cuenta</a>
 
             </section>
 
