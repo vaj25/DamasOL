@@ -16,7 +16,7 @@ class RankingController extends Controller {
      */
      public function rankingAction()
         {
-          $em = $this->getDoctrine()->getEntityManager();
+          $em = $this->getDoctrine()->getManager();
           $usuarios = $em->getRepository('AppBundle:User')->findAll();
 
 return $this->render('ranking/ranking.html.twig', array('usuarios' => $usuarios));
