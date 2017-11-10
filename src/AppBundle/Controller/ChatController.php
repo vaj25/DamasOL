@@ -26,7 +26,7 @@ class ChatController extends Controller
     /**
      * @Route("/grupoa-chat", name="grupoa")
      */
-    public function chatAction() {
-        return $this->render('default/chat.html.twig');
+    public function chatAction(Request $request) {
+        return $this->render('default/grupoa.html.twig');
     }
 }
