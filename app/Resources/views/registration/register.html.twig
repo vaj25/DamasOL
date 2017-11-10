@@ -10,36 +10,23 @@
 
 {% block body %}
 
-<div class="row center-xs">
-    <div class="col-xs-4">
-        <div class="box">
+<div class="ui container" style="display: flex;justify-content: center;align-items: center;">
+    <section class="ui very padded text compact segment">
+        <img class="ui centered small image" src="{{ asset('logo.png') }}" alt="logo">
 
-            <section class="container-form">
+        {{ form_start(form) }}
+            {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.password.first, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.password.second, {'attr': {'class': 'form-control'}}) }}
 
-                <div class="row center-xs">
-                    <div class="col-xs-10">
-                        <div class="box">
-                            <img class="logo" src="{{ asset('logo.png') }}" alt="logo" width="200px">
-                        </div>
-                    </div>
-                </div>
+            <button type="submit"  class="btn">Registrate!</button>
 
-                {{ form_start(form) }}
-                    {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_row(form.password.first, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_row(form.password.second, {'attr': {'class': 'form-control'}}) }}
+        {{ form_end(form) }}
 
-                    <button type="submit"  class="btn">Registrate!</button>
+        <a href="{{ path('login') }}">Acceder</a>
 
-                {{ form_end(form) }}
-
-                <a href="{{ path('login') }}">Acceder</a>
-
-            </section>
-
-        </div>
-    </div>
+    </section>
 </div>
 
 {% endblock %}

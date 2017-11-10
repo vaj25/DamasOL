@@ -10,43 +10,30 @@
 
 {% block body %}
 
-<div class="row center-xs">
-    <div class="col-xs-4">
-        <div class="box">
+<div class="ui container" style="display: flex;justify-content: center;align-items: center;">
+    <section class="ui very padded text compact segment">
+        <img class="ui centered small image" src="{{ asset('logo.png') }}" alt="logo">
 
-            <section class="container-form">
+        {% if error %}
+            <div>{{ error.message }}</div>
+        {% endif %}
 
-                <div class="row center-xs">
-                    <div class="col-xs-10">
-                        <div class="box">
-                            <img class="logo" src="{{ asset('logo.png') }}" alt="logo" width="200px">
-                        </div>
-                    </div>
-                </div>
+        <form action="{{ path('login_check') }}" method="post">
+            <label for="username" class="label-control">Username:</label>
+            <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" />
 
+            <label for="password" class="label-control">Password:</label>
+            <input type="password" id="password" name="_password" class="form-control" />
 
-                {% if error %}
-                    <div>{{ error.message }}</div>
-                {% endif %}
+            <input type="hidden" name="_target_path" value="user_ranking" />
 
-                <form action="{{ path('login_check') }}" method="post">
-                    <label for="username" class="label-control">Username:</label>
-                    <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" />
+            <input type="submit" name="login" value="iniciar" class="btn" />
+        </form>
 
-                    <label for="password" class="label-control">Password:</label>
-                    <input type="password" id="password" name="_password" class="form-control" />
+        <a href="{{ path('user_registration') }}">Crear cuenta</a>
 
-                    <input type="hidden" name="_target_path" value="user_ranking" />
-
-                    <input type="submit" name="login" value="iniciar" class="btn" />
-                </form>
-
-                <a href="{{ path('user_registration') }}">Crear cuenta</a>
-
-            </section>
-
-        </div>
-    </div>
+    </section>
 </div>
+
 
 {% endblock %}
