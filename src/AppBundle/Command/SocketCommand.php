@@ -12,6 +12,8 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
+use Ratchet\App;
+
 // Change the namespace according to your bundle
 use AppBundle\Sockets\Chat;
 
@@ -35,15 +37,19 @@ class SocketCommand extends Command
             'Starting chat, open your browser.',// Empty line
         ]);
         
-        $server = IoServer::factory(
-            new HttpServer(
-                new WsServer(
-                    new Chat()
-                )
-            ),
-            8080
-        );
+        // $server = IoServer::factory(
+        //     new HttpServer(
+        //         new WsServer(
+        //             new Chat()
+        //         )
+        //     ),
+        //     8080
+        // );
+
+        $app = new App('localhost', 8080);
+        $app->route('/chat', new Chat);
+        $app->route('/grupoa-chat', new Chat);
         
-        $server->run();
+        $app->run();
     }
 }
