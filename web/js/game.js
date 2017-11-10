@@ -2,28 +2,42 @@
 $(document).ready(function() {
     var drag = false;
     var margin = ($(window).width() - $(".container-game").width())/2;
+    var w = 70;
     var x = 0;
     var y = 0;
+    var m = 0;
+    var d = 0;
 
     $('circle')
     .mouseup(function () {
-        var m = Math.sign( ($(this).attr("cy") - y)/($(this).attr("cx") - x) );        
-        if (m == 1) {
-            move($(this), x + 70, x);
-        } else {
-            move($(this), y, x);
+        if (drag) {
+            m = Math.sign( ($(this).attr("cy") - y)/($(this).attr("cx") - x) );        
+
+            wp = w * d;
+
+            if (m == 1) {
+                move($(this), x + wp, y + wp);
+            } else {
+                move($(this), x - wp, y + wp);
+            }
         }
-        console.log(x+','+y);
         drag = false;
     })
     .mousedown(function () {
-        y = $(this).attr("cy");
-        x = $(this).attr("cx");
+        if (!drag) {
+            y = parseInt($(this).attr("cy"));
+            x = parseInt($(this).attr("cx"));
+        }
         drag = true;
     })
     .mousemove(function (event) {
         if (drag) {
-            move($(this), (event.pageX - margin), (event.pageY - 70));
+            move($(this), (event.pageX - margin), (event.pageY - w));
+            if ((event.pageY - w) - y > 0) {
+                d = 1;
+            } else {
+                d = -1;                
+            }
         }
     });
 
