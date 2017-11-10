@@ -1,0 +1,24 @@
+.container-game {
+    width: 565px;
+    height: 565px;
+    border:2px solid;
+}
+
+
+.beige{
+    fill: beige;
+}
+
+.tan {
+    fill: tan;
+}
+
+.white {
+    stroke:black;
+    fill:white;
+}
+
+.black {
+    stroke:white;
+    fill:black;
+}
