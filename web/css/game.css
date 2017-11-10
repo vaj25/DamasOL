@@ -1,9 +1,12 @@
+svg circle {
+    cursor:move;
+}
+
 .container-game {
     width: 565px;
     height: 565px;
     border:2px solid;
 }
-
 
 .beige{
     fill: beige;

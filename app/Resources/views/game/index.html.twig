@@ -10,7 +10,6 @@
 {%block body %} 
 
 {% include "menu.html.twig" %}
-
     <div class="ui container" style="display: flex;justify-content: center;align-items: center;">
         <div class="container-game">
             <svg width="560px" height="560px" style="">
@@ -271,7 +270,7 @@
                 <g>
                     <circle cx="525" cy="455" r="30px" class="black"></circle>
                 </g>
-                g>
+                <g>
                     <circle cx="35" cy="385" r="30px" class="black"></circle>
                 </g>
                 <g>
@@ -287,4 +286,9 @@
             </svg>
         </div>
     </div>
+
+{% block javascripts %}
+    <script src="{{ asset('js/game.js') }}"></script>
+{% endblock %}
+
 {% endblock %}
