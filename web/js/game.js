@@ -39,6 +39,9 @@ $(document).ready(function() {
                 d = -1;                
             }
         }
+    })
+    .dblclick( function () {
+        move($(this), x, y);
     });
 
     function move(piece, x, y) {
