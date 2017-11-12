@@ -38,7 +38,6 @@ $(document).ready(function() {
         if (!drag) {    
             y = parseInt($(this).attr("cy"));
             x = parseInt($(this).attr("cx"));
-            
         }
         
         drag = true;
@@ -78,8 +77,7 @@ $(document).ready(function() {
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
         move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3])
-        console.log(data[0]);
-        console.log($('circle[cx='+data[0]+'][cy='+data[1]+']'));
+        console.log(data);
     };
     conn.onerror = function(e){
         alert("Error: something went wrong with the socket.");
@@ -105,7 +103,7 @@ $(document).ready(function() {
             ];
             
             conn.send(JSON.stringify(txt));
-            console.log("JSON en función es: "+textCompleto);
+            console.log("JSON en función es: "+JSON.stringify(txt));
             // Add my own message to the list
         }
         
