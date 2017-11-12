@@ -15,6 +15,7 @@ use Ratchet\WebSocket\WsServer;
 use Ratchet\App;
 
 // Change the namespace according to your bundle
+use AppBundle\Sockets\Game;
 use AppBundle\Sockets\Chat;
 
 class SocketCommand extends Command
@@ -47,8 +48,9 @@ class SocketCommand extends Command
         // );
 
         $app = new App('localhost', 8080);
-        $app->route('/chat', new Chat);
-        $app->route('/grupoa-chat', new Chat);
+        //$app->route('/chat', new Chat);
+        $app->route('/game', new Game);
+        //$app->route('/grupoa-chat', new Chat);
         
         $app->run();
     }

@@ -7,7 +7,7 @@ namespace AppBundle\Sockets;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-class Chat implements MessageComponentInterface {
+class Game implements MessageComponentInterface {
     protected $clients;
 
     public function __construct() {
@@ -25,11 +25,11 @@ class Chat implements MessageComponentInterface {
         $numRecv = count($this->clients) - 1;
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
-        $Prueba = "asdasdsa";
+
         foreach ($this->clients as $client) {
             if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
-                $client->send($Prueba);
+                $client->send($msg);
             }
         }
     }
