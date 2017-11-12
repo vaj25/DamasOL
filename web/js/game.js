@@ -1,4 +1,4 @@
-
+﻿
 $(document).ready(function() {
     var drag = false;
     var margin = ($(window).width() - $(".container-game").width())/2;
@@ -54,6 +54,9 @@ $(document).ready(function() {
                 d = -1;                
             }
         }
+    })
+    .dblclick( function () {
+        move($(this), x, y);
 
     });
 
