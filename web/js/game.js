@@ -27,8 +27,6 @@ $(document).ready(function() {
                 move($(this), x - wp, y + wp);
             }
 
-
-
             stringMovimientoCY = $(this).attr("cy");
             stringMovimientoCX = $(this).attr("cx");
 
@@ -57,16 +55,9 @@ $(document).ready(function() {
     })
     .dblclick( function () {
         move($(this), x, y);
-
     });
 
-    function move(piece, x, y) {
-        piece.attr({
-            cx: x,
-            cy: y
-        });
-    }
-
+    
     // This object will be sent everytime you submit a message in the sendMessage function.
     var clientInformation = {
         username: new Date().getTime().toString()
@@ -80,40 +71,51 @@ $(document).ready(function() {
      * @type WebSocket
      */
     var conn = new WebSocket('ws://localhost:8080/game');
-
+    
     conn.onopen = function(e) {
         console.info("Connection established succesfully");
     };
-    
+    conn.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3])
+        console.log(data[0]);
+        console.log($('circle[cx='+data[0]+'][cy='+data[1]+']'));
+    };
     conn.onerror = function(e){
         alert("Error: something went wrong with the socket.");
         console.error(e);
     };
     // END SOCKET CONFIG
-   
-
+    
+    
     // Mini API to send a message with the socket and append a message in a UL element.
     var Movimiento = {
-
+        
         envioMovimiento: function(textX,textY,textCX,textCY){
             console.log("x en función es: "+textX);
             console.log("y en función es: "+textY);
             console.log("Cx en función es: "+textCX);
             console.log("Cy en función es: "+textCY);
-
-            var text= textX.concat(",");
-            text= text.concat(textY);
-            var textC= textCX.concat(",");
-            textC= textC.concat(textCY);
-            //clientInformation.message = text;
-            // Send info as JSON
-            var textCompleto=text.concat("-");
-            textCompleto=textCompleto.concat(textC);
-            conn.send(JSON.stringify(textCompleto));
+            
+            var txt = [
+                textX,
+                textY,
+                textCX,
+                textCY
+            ];
+            
+            conn.send(JSON.stringify(txt));
             console.log("JSON en función es: "+textCompleto);
             // Add my own message to the list
         }
-
+        
     };
+    
+    function move(piece, x, y) {
+        piece.attr({
+            cx: x,
+            cy: y
+        });
+    }
 
 });
