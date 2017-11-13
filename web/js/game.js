@@ -11,8 +11,8 @@ $(document).ready(function() {
     var MovimientoY = 0;
     var stringMovimientoCX = "";
     var stringMovimientoCY = "";
-    var captureX=0;
-    var captureY=0;
+    var captureX = "0";
+    var captureY = "0";
 
     $('circle')
     .mouseup(function () {
@@ -28,6 +28,9 @@ $(document).ready(function() {
                 
                 if(!remove(xc, yc)) {
                     d = 0;
+                } else {
+                    captureX = xc;
+                    captureY = yc;
                 }
             }
 
@@ -47,7 +50,15 @@ $(document).ready(function() {
                 stringMovimientoCY = $(this).attr("cy");
                 stringMovimientoCX = $(this).attr("cx");
 
-                Movimiento.envioMovimiento(String(MovimientoX),String(MovimientoY),stringMovimientoCX,stringMovimientoCY,$(this).attr("class"));
+                Movimiento.envioMovimiento(
+                    String(MovimientoX),
+                    String(MovimientoY),
+                    stringMovimientoCX,
+                    stringMovimientoCY,
+                    $(this).attr("class"),
+                    String(captureX),
+                    String(captureY)
+                );
             } else {
                 move($(this), x, y);
             }
@@ -60,6 +71,8 @@ $(document).ready(function() {
             y = parseInt($(this).attr("cy"));
             x = parseInt($(this).attr("cx"));
         }
+        captureX = "0";
+        captureY = "0";
         $('svg').append($(this));
         drag = true;
     })
@@ -113,7 +126,7 @@ $(document).ready(function() {
     // Mini API to send a message with the socket and append a message in a UL element.
     var Movimiento = {
         
-        envioMovimiento: function(textX,textY,textCX,textCY,color){
+        envioMovimiento: function(textX,textY,textCX,textCY,color,textCapX,textCapY){
            
             var txt = [
                 textX,
@@ -121,7 +134,8 @@ $(document).ready(function() {
                 textCX,
                 textCY,
                 color,
-
+                textCapX,
+                textCapY
             ];
             
             conn.send(JSON.stringify(txt));
