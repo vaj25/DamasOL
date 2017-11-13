@@ -33,9 +33,9 @@ class SocketCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln([
-            'Chat socket',// A line
+            'Game socket',// A line
             '============',// Another line
-            'Starting chat, open your browser.',// Empty line
+            'Starting game, open your browser.',// Empty line
         ]);
         
         // $server = IoServer::factory(

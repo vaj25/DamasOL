@@ -117,6 +117,9 @@ $(document).ready(function() {
         alert("algo se movio we")*/
         console.log(data);
         Movimiento.recibirMovimiento(data);
+        if (data[5] != 0 && data[6] != 0) {
+            Movimiento.eliminarPieza(data);
+        }
     };
     conn.onerror = function(e){
         alert("Error: something went wrong with the socket.");
@@ -148,7 +151,12 @@ $(document).ready(function() {
 
         recibirMovimiento: function(data){
             move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
-        },
+        }, 
+
+        eliminarPieza:  function(data){
+            remove(data[5], data[6]);         
+            
+        }, 
         
     };
     

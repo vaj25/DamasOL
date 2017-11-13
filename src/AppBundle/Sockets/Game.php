@@ -26,11 +26,14 @@ class Game implements MessageComponentInterface {
         //echo sprintf('Connection %d sending message "%s" to %d other connection %s' . "\n" , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
         $obj = json_decode($msg,true);       
-        $x=intval($obj[1]);
-        $cx=intval($obj[3]);
+        $y=intval($obj[1]);
+        $cy=intval($obj[3]);
+        $yc=intval($obj[1]);
+        $cyc=intval($obj[3]);
+
 
         if ($obj[4]=="black") {
-            if (($cx-$x)==-70) {
+            if (($cy-$y)==-70 || ($cyc-$yc)==-140) {
                 foreach ($this->clients as $client) {
                     if ($from !== $client) {
                         // The sender is not the receiver, send to each client connected
@@ -38,12 +41,12 @@ class Game implements MessageComponentInterface {
                         echo var_dump($msg);
                     }
                 }
+
             }
         }else{
-            if (($cx-$x)==70) {
+            if (($cy-$y)==70 || ($cyc-$yc)==140) {
                 foreach ($this->clients as $client) {
                     if ($from !== $client) {
-                        // The sender is not the receiver, send to each client connected
                         $client->send($msg);
                         echo var_dump($msg);
                     }
