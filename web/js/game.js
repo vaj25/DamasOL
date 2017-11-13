@@ -11,26 +11,39 @@ $(document).ready(function() {
     var MovimientoY = 0;
     var stringMovimientoCX = "";
     var stringMovimientoCY = "";
+    var Color = "";
+    var captureX=0;
+    var captureY=0;
 
     $('circle')
     .mouseup(function () {
         if (drag) {
             MovimientoY = y;
             MovimientoX = x;
-            m = Math.sign( ($(this).attr("cy") - y)/($(this).attr("cx") - x) );        
+            m = Math.sign( ($(this).attr("cy") - y)/($(this).attr("cx") - x) );
 
             wp = w * d;
+            if (($(this).attr("class")=="white" && d == 1) || ($(this).attr("class")=="black" && d == -1)) {
+                if (m == 1) {
+                    move($(this), x + wp, y + wp);
+                } else {
+                    move($(this), x - wp, y + wp);
+                }
 
-            if (m == 1) {
-                move($(this), x + wp, y + wp);
+                stringMovimientoCY = $(this).attr("cy");
+                stringMovimientoCX = $(this).attr("cx");
+                
+                if($(this).attr("class")=="white"){
+                    Color = "white";
+                }else{
+                    Color = "black";
+                }
+
+                Movimiento.envioMovimiento(String(MovimientoX),String(MovimientoY),stringMovimientoCX,stringMovimientoCY,Color);
             } else {
-                move($(this), x - wp, y + wp);
+                move($(this), x, y);
             }
 
-            stringMovimientoCY = $(this).attr("cy");
-            stringMovimientoCX = $(this).attr("cx");
-
-            Movimiento.envioMovimiento(String(MovimientoX),String(MovimientoY),stringMovimientoCX,stringMovimientoCY);
         }
         drag = false;
     })
@@ -76,8 +89,10 @@ $(document).ready(function() {
     };
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
-        move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3])
+        /*move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
+        alert("algo se movio we")*/
         console.log(data);
+        Movimiento.recibirMovimiento(data);
     };
     conn.onerror = function(e){
         alert("Error: something went wrong with the socket.");
@@ -89,23 +104,27 @@ $(document).ready(function() {
     // Mini API to send a message with the socket and append a message in a UL element.
     var Movimiento = {
         
-        envioMovimiento: function(textX,textY,textCX,textCY){
-            console.log("x en función es: "+textX);
-            console.log("y en función es: "+textY);
-            console.log("Cx en función es: "+textCX);
-            console.log("Cy en función es: "+textCY);
-            
+        envioMovimiento: function(textX,textY,textCX,textCY,color){
+           
             var txt = [
                 textX,
                 textY,
                 textCX,
-                textCY
+                textCY,
+                color,
+
             ];
             
             conn.send(JSON.stringify(txt));
             console.log("JSON en función es: "+JSON.stringify(txt));
             // Add my own message to the list
-        }
+            //captureX=0;
+        },
+
+        recibirMovimiento: function(data){
+            move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
+            //alert("algo se movio we");
+        },
         
     };
     

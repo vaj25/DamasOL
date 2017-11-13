@@ -23,15 +23,34 @@ class Game implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg) {
         $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+        //echo sprintf('Connection %d sending message "%s" to %d other connection %s' . "\n" , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
-        foreach ($this->clients as $client) {
-            if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
+        $obj = json_decode($msg,true);       
+        $x=intval($obj[0]);
+        $cx=intval($obj[2]);
+
+        if ($obj[4]=="white") {
+            if (($cx-$x)==-70) {
+                foreach ($this->clients as $client) {
+                    if ($from !== $client) {
+                        // The sender is not the receiver, send to each client connected
+                        $client->send($msg);
+                        echo var_dump($msg);
+                    }
+                }
+            }
+        }else{
+            if (($cx-$x)==70) {
+                foreach ($this->clients as $client) {
+                    if ($from !== $client) {
+                        // The sender is not the receiver, send to each client connected
+                        $client->send($msg);
+                        echo var_dump($msg);
+                    }
+                }
             }
         }
+
     }
 
     public function onClose(ConnectionInterface $conn) {
