@@ -65,6 +65,11 @@ $(document).ready(function() {
             }
         }
     })
+    .click(function () {
+        if (drag) {
+            move($(this), x, y);
+        }
+    })
     .dblclick( function () {
         move($(this), x, y);
     });
