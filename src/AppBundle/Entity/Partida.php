@@ -29,7 +29,7 @@ class Partida {
     private $jugador1;
 
     /**
-     * @ORM\Column(name="jugador_2", type="integer")
+     * @ORM\Column(name="jugador_2", type="integer", nullable=true)
      */
     private $jugador2;
 

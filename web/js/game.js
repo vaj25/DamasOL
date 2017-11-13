@@ -1,6 +1,7 @@
 ﻿
 $(document).ready(function() {
     var drag = false;
+    var play = true;
     var margin = ($(window).width() - $(".container-game").width())/2;
     var w = 70;
     var x = 0;
@@ -11,86 +12,87 @@ $(document).ready(function() {
     var MovimientoY = 0;
     var stringMovimientoCX = "";
     var stringMovimientoCY = "";
-    var captureX = "0";
-    var captureY = "0";
+    var captureX = 0;
+    var captureY = 0;
 
-    $('circle')
-    .mouseup(function () {
-        if (drag) {
-            MovimientoY = y;
-            MovimientoX = x;
-            m = Math.sign( ($(this).attr("cy") - y)/($(this).attr("cx") - x) );
+    if (play) {
+        $('circle')
+        .mouseup(function () {
+            if (drag) {
+                MovimientoY = y;
+                MovimientoX = x;
+                m = Math.sign( ($(this).attr("cy") - y)/($(this).attr("cx") - x) );
 
-            if ( Math.abs(d) >= 2) {
-                wc = w * (Math.sign(d) * 1);
-                xc = (m == 1) ? (x + wc) : (x - wc);
-                yc = y + wc;
-                
-                if(!remove(xc, yc)) {
-                    d = 0;
+                wp = w * d;
+                xp = (m == 1) ? (x + wp) : (x - wp);
+                yp = y + wp;
+
+                if (
+                    ( ($(this).attr("class")=="white" && Math.sign(d) == 1) || 
+                    ($(this).attr("class")=="black" && Math.sign(d) == -1) ) &&
+                    isEmpty(xp, yp) && (Math.abs(d) <= 2)
+                ) {
+
+                    if ( Math.abs(d) == 2) {
+                        wc = w * (Math.sign(d) * 1);
+                        xc = (m == 1) ? (x + wc) : (x - wc);
+                        yc = y + wc;
+                        
+                        if(!remove(xc, yc)) {
+                            xp = x;
+                            yp = y;
+                        } else {
+                            captureX = xc;
+                            captureY = yc;
+                        }
+                    }
+
+                    move($(this), xp, yp);
+                    
+                    stringMovimientoCY = $(this).attr("cy");
+                    stringMovimientoCX = $(this).attr("cx");
+
+                    Movimiento.envioMovimiento(
+                        String(MovimientoX),
+                        String(MovimientoY),
+                        stringMovimientoCX,
+                        stringMovimientoCY,
+                        $(this).attr("class"),
+                        String(captureX),
+                        String(captureY)
+                    );
                 } else {
-                    captureX = xc;
-                    captureY = yc;
+                    move($(this), x, y);
                 }
             }
-
-            wp = w * d;
-
-            xp = (m == 1) ? (x + wp) : (x - wp);
-            yp = y + wp;
-
-            if (
-                ( ($(this).attr("class")=="white" && Math.sign(d) == 1) || 
-                ($(this).attr("class")=="black" && Math.sign(d) == -1) ) &&
-                isEmpty(xp, yp)
-            ) {
-
-                move($(this), xp, yp);
-                
-                stringMovimientoCY = $(this).attr("cy");
-                stringMovimientoCX = $(this).attr("cx");
-
-                Movimiento.envioMovimiento(
-                    String(MovimientoX),
-                    String(MovimientoY),
-                    stringMovimientoCX,
-                    stringMovimientoCY,
-                    $(this).attr("class"),
-                    String(captureX),
-                    String(captureY)
-                );
-            } else {
+            $('svg[width=24]').empty();
+            drag = false;
+        })
+        .mousedown(function () {
+            if (!drag) {    
+                y = parseInt($(this).attr("cy"));
+                x = parseInt($(this).attr("cx"));
+            }
+            captureX = "0";
+            captureY = "0";
+            $('svg').append($(this));
+            drag = true;
+        })
+        .mousemove(function (event) {
+            if (drag) {
+                move($(this), (event.pageX - margin), (event.pageY - w));
+                d = Math.round(((event.pageY - w) - y)/70);
+            }
+        })
+        .click(function () {
+            if (drag) {
                 move($(this), x, y);
             }
-        }
-        $('svg[width=24]').empty();
-        drag = false;
-    })
-    .mousedown(function () {
-        if (!drag) {    
-            y = parseInt($(this).attr("cy"));
-            x = parseInt($(this).attr("cx"));
-        }
-        captureX = "0";
-        captureY = "0";
-        $('svg').append($(this));
-        drag = true;
-    })
-    .mousemove(function (event) {
-        if (drag) {
-            move($(this), (event.pageX - margin), (event.pageY - w));
-            d = Math.round(((event.pageY - w) - y)/70);
-        }
-    })
-    .click(function () {
-        if (drag) {
+        })
+        .dblclick( function () {
             move($(this), x, y);
-        }
-    })
-    .dblclick( function () {
-        move($(this), x, y);
-    });
-
+        });
+    }
     
     // This object will be sent everytime you submit a message in the sendMessage function.
     var clientInformation = {
@@ -173,6 +175,10 @@ $(document).ready(function() {
         } else {
             return false;
         }
+    }
+
+    function noPlay() {
+        play = false;
     }
 
 });

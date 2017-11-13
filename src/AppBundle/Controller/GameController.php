@@ -21,8 +21,7 @@ class GameController extends Controller
     /**
      * @Route("/game", name="game")
      */
-    public function gameAction()
-    {
+    public function gameAction() {
         return $this->render(
             'game/game.html.twig'
             // array(
@@ -30,6 +29,10 @@ class GameController extends Controller
             //     'error'         => '',
             // )
         );
-
     }
+
+    public function FunctionName(Type $var = null) {
+        # code...
+    }
+
 }
