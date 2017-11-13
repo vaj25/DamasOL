@@ -26,10 +26,10 @@ class Game implements MessageComponentInterface {
         //echo sprintf('Connection %d sending message "%s" to %d other connection %s' . "\n" , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
         $obj = json_decode($msg,true);       
-        $x=intval($obj[0]);
-        $cx=intval($obj[2]);
+        $x=intval($obj[1]);
+        $cx=intval($obj[3]);
 
-        if ($obj[4]=="white") {
+        if ($obj[4]=="black") {
             if (($cx-$x)==-70) {
                 foreach ($this->clients as $client) {
                     if ($from !== $client) {
