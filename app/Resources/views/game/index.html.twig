@@ -12,7 +12,7 @@
 {% include "menu.html.twig" %}
     <div class="ui container" style="display: flex;justify-content: center;align-items: center;">
         <div class="container-game">
-            <svg width="560px" height="560px" style="">
+            <svg id="svg" width="560px" height="560px">
                 {# board #}
                 <g>
                     <rect x="0" y="0" width="70px" height="70px" class="beige"></rect>
@@ -282,7 +282,7 @@
                 <g>
                     <circle cx="455" cy="385" r="30px" class="black"></circle>
                 </g>
-                {# piece black #}                
+                {# piece black #}
             </svg>
         </div>
     </div>

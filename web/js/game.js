@@ -11,7 +11,6 @@ $(document).ready(function() {
     var MovimientoY = 0;
     var stringMovimientoCX = "";
     var stringMovimientoCY = "";
-    var Color = "";
     var captureX=0;
     var captureY=0;
 
@@ -22,29 +21,38 @@ $(document).ready(function() {
             MovimientoX = x;
             m = Math.sign( ($(this).attr("cy") - y)/($(this).attr("cx") - x) );
 
-            wp = w * d;
-            if (($(this).attr("class")=="white" && d == 1) || ($(this).attr("class")=="black" && d == -1)) {
-                if (m == 1) {
-                    move($(this), x + wp, y + wp);
-                } else {
-                    move($(this), x - wp, y + wp);
+            if ( Math.abs(d) >= 2) {
+                wc = w * (Math.sign(d) * 1);
+                xc = (m == 1) ? (x + wc) : (x - wc);
+                yc = y + wc;
+                
+                if(!remove(xc, yc)) {
+                    d = 0;
                 }
+            }
 
+            wp = w * d;
+
+            xp = (m == 1) ? (x + wp) : (x - wp);
+            yp = y + wp;
+
+            if (
+                ( ($(this).attr("class")=="white" && Math.sign(d) == 1) || 
+                ($(this).attr("class")=="black" && Math.sign(d) == -1) ) &&
+                isEmpty(xp, yp)
+            ) {
+
+                move($(this), xp, yp);
+                
                 stringMovimientoCY = $(this).attr("cy");
                 stringMovimientoCX = $(this).attr("cx");
-                
-                if($(this).attr("class")=="white"){
-                    Color = "white";
-                }else{
-                    Color = "black";
-                }
 
-                Movimiento.envioMovimiento(String(MovimientoX),String(MovimientoY),stringMovimientoCX,stringMovimientoCY,Color);
+                Movimiento.envioMovimiento(String(MovimientoX),String(MovimientoY),stringMovimientoCX,stringMovimientoCY,$(this).attr("class"));
             } else {
                 move($(this), x, y);
             }
-
         }
+        $('svg[width=24]').empty();
         drag = false;
     })
     .mousedown(function () {
@@ -52,17 +60,13 @@ $(document).ready(function() {
             y = parseInt($(this).attr("cy"));
             x = parseInt($(this).attr("cx"));
         }
-        
+        $('svg').append($(this));
         drag = true;
     })
     .mousemove(function (event) {
         if (drag) {
             move($(this), (event.pageX - margin), (event.pageY - w));
-            if ((event.pageY - w) - y > 0) {
-                d = 1;
-            } else {
-                d = -1;                
-            }
+            d = Math.round(((event.pageY - w) - y)/70);
         }
     })
     .click(function () {
@@ -128,7 +132,6 @@ $(document).ready(function() {
 
         recibirMovimiento: function(data){
             move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
-            //alert("algo se movio we");
         },
         
     };
@@ -138,6 +141,24 @@ $(document).ready(function() {
             cx: x,
             cy: y
         });
+    }
+
+    function isEmpty(x, y) {
+        if ($('#svg circle[cx='+x+'][cy='+y+']').length) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function remove(x, y) {
+        var cicl = $('#svg circle[cx='+x+'][cy='+y+']');
+        if (cicl.length) {
+            cicl.remove();
+            return true;
+        } else {
+            return false;
+        }
     }
 
 });
