@@ -3,8 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Partida;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class GameController extends Controller
 {
@@ -38,9 +41,12 @@ class GameController extends Controller
     /**
      * @Route("/game/{idPartida}", name="game")
      */
-    public function gameAction() {
+    public function gameAction($idPartida) {
         return $this->render(
-            'game/game.html.twig'
+            'game/game.html.twig',
+            array(
+                'partida' => $idPartida
+            )
         );
     }
 
@@ -64,7 +70,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("partida/updatej/{idPartida}")
+     * @Route("partida/updatej/{idPartida}", name="actualizar_partida_jugador")
      */
     public function updateJAction($idPartida) {
         $em = $this->getDoctrine()->getManager();
@@ -78,6 +84,31 @@ class GameController extends Controller
             return $this->redirect('/');
         }
     
+    }
+
+    /**
+     * @Route("/partida/jugador", name="partida_jugador")
+     * @Method({"POST"})
+     */
+    public function partidaJugadorAction(Request $request) {
+        
+        if($request->isXmlHttpRequest()) {
+            $id = $request->get("partida");
+            $partida =  $this->getDoctrine()->getRepository('AppBundle:Partida')->find($id);
+            $return = array('response' => 'null');
+
+            if ($partida) {
+                if ($partida->getJugador1() == $this->getUser()->getId()) {
+                    $return['response'] = "white";
+                } elseif ($partida->getJugador2() == $this->getUser()->getId()) {
+                    $return['response'] = "black";
+                } else {
+                    $return['response'] = "visited";
+                }
+            }
+            
+            return new JsonResponse($return);
+        }
     }
 
 }
