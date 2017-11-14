@@ -9,4 +9,16 @@
 {%block body %}
     {% include "menu.html.twig" %}
     <a class="ui primary button" href="/partida/new">Jugar</a>
+    <p> Partidas para jugar: </p>
+    <ul>
+    {% for partida in partidas %}
+        <li> <a href="partida/updatej/{{ partida.id}}"> Partida #{{ partida.id }} </a> </li>
+    {% endfor %}
+    </ul>
+    <p> Partidas para ver: </p>
+    <ul>
+    {% for partida in verPartidas %}
+        <li> <a href="/game/{{ partida.id}}"> Partida #{{ partida.id }} </a> </li>
+    {% endfor %}
+    </ul>
 {% endblock %}
