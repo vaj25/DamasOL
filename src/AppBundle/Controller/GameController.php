@@ -27,7 +27,7 @@ class GameController extends Controller
 
         $query1 = $repositorio->createQueryBuilder('p')
             ->where('p.isActive = 1')
-                ->andWhere('p.jugador2 is NULL')
+                ->andWhere('p.jugador2 is not NULL')
             ->getQuery();
 
         return $this->render(

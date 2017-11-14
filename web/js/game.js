@@ -15,6 +15,7 @@ $(document).ready(function() {
     var captureX = 0;
     var captureY = 0;
     var color = "";
+    var idPartida = $('input[name=partida]').val();
     
     $.ajax({
         type: 'post',
@@ -69,7 +70,8 @@ $(document).ready(function() {
                                     stringMovimientoCY,
                                     $(this).attr("class"),
                                     String(captureX),
-                                    String(captureY)
+                                    String(captureY),
+                                    String(idPartida)
                                 );
                             } else {
                                 move($(this), x, y);
@@ -122,14 +124,12 @@ $(document).ready(function() {
      * @type WebSocket
      */
     var conn = new WebSocket('ws://localhost:8080/game');
-    
     conn.onopen = function(e) {
         console.info("Connection established succesfully");
+
     };
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
-        /*move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
-        alert("algo se movio we")*/
         console.log(data);
         Movimiento.recibirMovimiento(data);
         if (data[5] != 0 && data[6] != 0) {
@@ -146,7 +146,7 @@ $(document).ready(function() {
     // Mini API to send a message with the socket and append a message in a UL element.
     var Movimiento = {
         
-        envioMovimiento: function(textX,textY,textCX,textCY,color,textCapX,textCapY){
+        envioMovimiento: function(textX,textY,textCX,textCY,color,textCapX,textCapY,idPartida){
            
             var txt = [
                 textX,
@@ -155,17 +155,19 @@ $(document).ready(function() {
                 textCY,
                 color,
                 textCapX,
-                textCapY
+                textCapY,
+                idPartida
             ];
             
             conn.send(JSON.stringify(txt));
             console.log("JSON en función es: "+JSON.stringify(txt));
             // Add my own message to the list
-            //captureX=0;
         },
 
         recibirMovimiento: function(data){
-            move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
+            if (idPartida == data[7]) {
+                move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
+            }
         }, 
 
         eliminarPieza:  function(data){
