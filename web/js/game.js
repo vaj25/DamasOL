@@ -41,7 +41,8 @@ $(document).ready(function() {
                             if (
                                 ( ($(this).attr("class")=="white" && Math.sign(d) == 1) || 
                                 ($(this).attr("class")=="black" && Math.sign(d) == -1) ) &&
-                                isEmpty(xp, yp) && (Math.abs(d) <= 2)
+                                isEmpty(xp, yp) && (Math.abs(d) <= 2) &&
+                                play
                             ) {
             
                                 if ( Math.abs(d) == 2) {
@@ -79,6 +80,7 @@ $(document).ready(function() {
                         }
                         $('svg[width=24]').empty();
                         drag = false;
+                        noPlay();
                     })
                     .mousedown(function () {
                         if (!drag) {    
@@ -167,6 +169,7 @@ $(document).ready(function() {
         recibirMovimiento: function(data){
             if (idPartida == data[7]) {
                 move($('circle[cx='+data[0]+'][cy='+data[1]+']'), data[2], data[3]);
+                Play();
             }
         }, 
 
@@ -204,6 +207,10 @@ $(document).ready(function() {
 
     function noPlay() {
         play = false;
+    }
+
+    function Play() {
+        play = true;
     }
 
 });
