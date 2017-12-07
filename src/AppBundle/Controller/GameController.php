@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Partida;
+use AppBundle\Entity\DetallePartida;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -111,5 +112,44 @@ class GameController extends Controller
             return new JsonResponse($return);
         }
     }
+
+    /**
+     * @Route("/partida/insertarMovimiento", name="partida_insertar_movimiento")
+     * @Method({"POST"})
+     */
+    public function partidaInsertarMovimiento(Request $request) {
+        
+        if($request->isXmlHttpRequest()) {
+            $idPartida = $request->get("idPartida");
+            $posX = $request->get("posX");
+            $posY = $request->get("posY");
+            $nuevaX = $request->get("nuevaX");
+            $nuevaY = $request->get("nuevaY");
+            $color = $request->get("color");
+            $textCapX = $request->get("textCapX");
+            $textCapY = $request->get("textCapY");
+            
+            $return = array('response' => 'success');
+            $id = $request->get("idPartida");
+            $partida =  $this->getDoctrine()->getRepository('AppBundle:Partida')->find($id);
+            $detallePartida = new DetallePartida();
+            $detallePartida
+                ->setPosicionX($posX)
+                ->setPosicionY($posY)
+                ->setNvaPosicionX($nuevaX)
+                ->setNvaPosicionY($nuevaY)
+                ->setCapturaX($textCapX)
+                ->setCapturaY($textCapY)
+                ->setColor($color)
+                ->setPartida($partida);
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($detallePartida);
+            $em->flush();
+ 
+            return new JsonResponse($return);
+        }
+    }
+
 
 }

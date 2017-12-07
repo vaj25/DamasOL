@@ -29,4 +29,25 @@ class LoginController extends Controller {
 
     }
 
+    /**
+     * @Route("/login2/success", name="login_route2")
+     */
+    public function login2Action(Request $request) {
+        
+        $authenticationUtils = $this->get('security.authentication_utils');
+        
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render(
+            'users/login2.html.twig',
+            array(
+                'last_username' => $lastUsername,
+                'error'         => $error,
+                )
+        );
+
+    }
+
 }

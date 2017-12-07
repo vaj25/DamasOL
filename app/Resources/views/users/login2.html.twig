@@ -1,0 +1,50 @@
+{# app/Resources/views/users/login.html.twig #}
+
+{% extends "base.html.twig" %}
+
+{% block title %}Login{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/security.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="ui grid">
+      <div class="ui six wide column"></div>
+      <div class="ui four wide column">
+        <div class="ui green message" id="mensajeSuccess">
+          <i class="close icon"></i>
+          <div class="header ">
+            El usuario se creó exitosamente
+          </div>
+          <p></p>
+        </div>
+      </div>
+    </div>
+<div class="ui container" style="display: flex;justify-content: center;align-items: center;">
+    <section class="ui very padded text compact segment">
+        <img class="ui centered small image" src="{{ asset('logo.png') }}" alt="logo">
+
+        {% if error %}
+            <div>{{ error.message }}</div>
+        {% endif %}
+
+        <form action="{{ path('login_check') }}" method="post">
+            <label for="username" class="label-control">Username:</label>
+            <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" />
+
+            <label for="password" class="label-control">Password:</label>
+            <input type="password" id="password" name="_password" class="form-control" />
+
+            <input type="hidden" name="_target_path" value="homepage" />
+
+            <input type="submit" name="login" value="iniciar" class="btn" />
+        </form>
+
+        <a href="{{ path('user_registration') }}">Crear cuenta</a>
+
+    </section>
+</div>
+
+
+{% endblock %}

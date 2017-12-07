@@ -29,8 +29,7 @@ class RegistrationController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('login_route2');
         }
 
         return $this->render(

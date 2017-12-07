@@ -139,7 +139,7 @@ $(document).ready(function() {
         }
     };
     conn.onerror = function(e){
-        alert("Error: something went wrong with the socket.");
+        alert("Lo sentimos: Algo anda mal con el socket.");
         console.error(e);
     };
     // END SOCKET CONFIG
@@ -164,6 +164,25 @@ $(document).ready(function() {
             conn.send(JSON.stringify(txt));
             console.log("JSON en función es: "+JSON.stringify(txt));
             // Add my own message to the list
+
+            $.ajax({
+                type: 'post',
+                url: '/partida/insertarMovimiento',
+                data: {
+                    posX : textX,
+                    posY : textY,
+                    nuevaX : textCX,
+                    nuevaY : textCY,
+                    color  : color,
+                    textCapX : textCapX,
+                    textCapY : textCapY,
+                    idPartida : idPartida,
+                    },
+                success: function(result) {
+                        console.log("ingresado con exito.");
+                    },
+                });
+
         },
 
         recibirMovimiento: function(data){
@@ -185,7 +204,8 @@ $(document).ready(function() {
             cx: x,
             cy: y
         });
-    }
+
+        }
 
     function isEmpty(x, y) {
         if ($('#svg circle[cx='+x+'][cy='+y+']').length) {
