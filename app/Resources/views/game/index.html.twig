@@ -8,17 +8,47 @@
 
 {%block body %}
     {% include "menu.html.twig" %}
-    <a class="ui primary button" href="/partida/new">Jugar</a>
-    <p> Partidas para jugar: </p>
-    <ul>
-    {% for partida in partidas %}
-        <li> <a href="partida/updatej/{{ partida.id}}"> Partida #{{ partida.id }} </a> </li>
-    {% endfor %}
-    </ul>
-    <p> Partidas para ver: </p>
-    <ul>
-    {% for partida in verPartidas %}
-        <li> <a href="/game/{{ partida.id}}"> Partida #{{ partida.id }} </a> </li>
-    {% endfor %}
-    </ul>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <br><br>
+            <a class="ui positive massive button" style="text-align: center;" href="/partida/new">Jugar</a>
+            <br><br>
+        </div>
+    </div>
+    
+    <div class="ui two column doubling stackable grid container">
+        <div class="column">
+        
+            <div class="ui celled list">
+                <h4 class="ui header"> Partidas para jugar: </h4>
+            {% for partida in partidas %}
+                <div class="item">
+                    <i class="large game icon"></i>
+                    <div class="content">
+                        <div class="header"><a href="partida/updatej/{{ partida.id }}"> Partida #{{ partida.id }} </a></div>
+                        {{ partida.getFecha().format('Y-m-d H:i') }}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+        </div>
+        <div class="column">
+
+            <div class="ui celled list">
+                <h4 class="ui header"> Partidas para ver: </h4>
+            {% for partida in verPartidas %}
+                <div class="item">
+                    <i class="large low vision icon"></i>
+                    <div class="content">
+                        <div class="header"><a href="/game/{{ partida.id }}"> Partida #{{ partida.id }} </a></div>
+                        {{ partida.getFecha().format('Y-m-d H:i') }}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
 {% endblock %}

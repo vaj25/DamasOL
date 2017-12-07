@@ -39,7 +39,7 @@ class Partida {
     private $ganador;
 
     /**
-     * @ORM\Column(name="fecha", type="date")
+     * @ORM\Column(name="fecha", type="datetime")
      */
     private $fecha;
 
