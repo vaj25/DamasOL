@@ -14,11 +14,11 @@ class RankingController extends Controller {
     /**
      * @Route("/ranking", name="user_ranking")
      */
-     public function rankingAction()
-        {
-          $em = $this->getDoctrine()->getManager();
-          $usuarios = $em->getRepository('AppBundle:User')->findAll();
+    public function rankingAction()
+    {
+      $em = $this->getDoctrine()->getManager();
+      $usuarios = $em->getRepository('AppBundle:User')->findBy(array('isActive' => 1), array('victorias' => 'DESC'));
 
-return $this->render('ranking/ranking.html.twig', array('usuarios' => $usuarios));
-}
+      return $this->render('ranking/ranking.html.twig', array('usuarios' => $usuarios));
+    }
 }
